@@ -9,7 +9,7 @@ Required packages: core packages, lubridate
 
 ## Loading and preprocessing the data
 
-The code below reads data into R. It assumes that the relevant data file is presented in your working directory and is called "activity.zip".
+The code below reads data into R. It assumes that the relevant data file is presented in your working directory and is called "activity.css".
 
 
 ```r
@@ -36,7 +36,7 @@ sum_steps_per_day <- sapply(steps_per_day, function(x) {sum(x, na.rm = TRUE)})
 hist(sum_steps_per_day, breaks = 9, main = "Histogram for summed steps per day", xlab = "Summed steps per day (NAs ignored)")
 ```
 
-![](PA1_template_files/figure-html/total_number_of_steps_taken_per_day-1.png) 
+![](./PA1_template_files/figure-html/total_number_of_steps_taken_per_day-1.png) 
 
 ```r
 daily_mean <- mean(sum_steps_per_day)
@@ -49,7 +49,7 @@ The median is **10395**.
 
 ## What is the average daily activity pattern?
 
-The code below produces a time-series plot of the average nunbers of steps taken in a certain time interval across various days. NAs are again ignored.
+The code below produces a time-series plot of the average numbers of steps taken in a certain time interval across various days. NAs are again ignored.
 
 
 ```r
@@ -59,18 +59,18 @@ intervals <- as.integer(names(mean_steps_per_interval))
 plot(x = intervals, y = mean_steps_per_interval, type = "l", main = "Average daily activity", xlab = "Time in minutes", ylab = "Average number of steps")
 ```
 
-![](PA1_template_files/figure-html/daily_activity_pattern-1.png) 
+![](./PA1_template_files/figure-html/daily_activity_pattern-1.png) 
 
 ```r
 named_max_steps <- mean_steps_per_interval[mean_steps_per_interval == max(mean_steps_per_interval)]
 max_steps_interval <- as.integer(names(named_max_steps))
 ```
 
-The five minutes interval **835** contains the biggest avarage number of steps.
+The five minutes interval starting with the **835th** minute contains the biggest avarage number of steps.
 
 ## Imputing missing values
 
-The code below computes the number of NAs, fills in missing values in the data and then produces computations similar to those in the "What is mean total number of steps taken per day?" section to compare means and medians. The strategy for filling in missing values is to use the means for each interval calculated above rounded to an integer.
+The code below computes the number of NAs, fills in missing values in the data and then produces computations similar to those in the "What is mean total number of steps taken per day?" section to compare means and medians. The strategy for filling in missing values is to use the mean for a respective 5-min interval (as calculated above). Those means are rounded as integers.
 
 
 ```r
@@ -93,7 +93,7 @@ fillNAs <- function(data, steps) {
 data_noNAs <- fillNAs(data, mean_steps_per_interval)
 ```
 
-Now that the NAs are filled the comparissons can be made.
+Now that the NAs are filled in, the comparissons can be made.
 
 
 ```r
@@ -102,7 +102,7 @@ sum_steps_per_day_noNAs <- sapply(steps_per_day_noNAs, function(x) {sum(x, na.rm
 hist(sum_steps_per_day_noNAs, breaks = 9, main = "Histogram for summed steps per day", xlab = "Summed steps per day (NAs ignored)")
 ```
 
-![](PA1_template_files/figure-html/comparing_with_unfilled_NAs-1.png) 
+![](./PA1_template_files/figure-html/comparing_with_unfilled_NAs-1.png) 
 
 ```r
 daily_mean_noNAs <- mean(sum_steps_per_day_noNAs)
@@ -113,11 +113,11 @@ median_change <- daily_median_noNAs - daily_median
 
 The new mean is **1.074977\times 10^{4}**. The mean has faced a change of **1395.5409836**.
 
-The new mean is **10641**. The mean has faced a change of **246**.
+The new median is **10641**. The median has faced a change of **246**.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-The code below plots the patterns of activity on weekdays and weekends separately so a reader can compare them. For that it splits the dataset with filled NAs by a new factor variable levels of which correspond to weekends and weekdays respectively.
+The code below plots the patterns of activity on weekdays and weekends separately so a reader can compare them. For that the dataset is split by a new factor variable. The levels of this variable represent the types of a day: either a weekday or a weekend.
 
 
 ```r
@@ -152,4 +152,4 @@ intervals <- as.integer(names(mean_steps_per_interval))
 plot(x = intervals, y = mean_steps_per_interval, type = "l", main = "Average daily activity for weekends", xlab = "Time in minutes", ylab = "Average number of steps")
 ```
 
-![](PA1_template_files/figure-html/weekday_weekend_split_2-1.png) 
+![](./PA1_template_files/figure-html/weekday_weekend_split_2-1.png) 

@@ -15,7 +15,7 @@ Required packages: core packages, lubridate
 
 ## Loading and preprocessing the data
 
-The code below reads data into R. It assumes that the relevant data file is presented in your working directory and is called "activity.zip".
+The code below reads data into R. It assumes that the relevant data file is presented in your working directory and is called "activity.css".
 
 ``` {r loading_and_preprocessing_data}
 require(lubridate)
@@ -41,7 +41,7 @@ The median is **`r daily_median`**.
 
 ## What is the average daily activity pattern?
 
-The code below produces a time-series plot of the average nunbers of steps taken in a certain time interval across various days. NAs are again ignored.
+The code below produces a time-series plot of the average numbers of steps taken in a certain time interval across various days. NAs are again ignored.
 
 ```{r daily_activity_pattern}
 steps_per_interval <- split(data$steps, data$interval)
@@ -52,11 +52,11 @@ named_max_steps <- mean_steps_per_interval[mean_steps_per_interval == max(mean_s
 max_steps_interval <- as.integer(names(named_max_steps))
 ```
 
-The five minutes interval **`r max_steps_interval`** contains the biggest avarage number of steps.
+The five minutes interval starting with the **`r max_steps_interval`th** minute contains the biggest avarage number of steps.
 
 ## Imputing missing values
 
-The code below computes the number of NAs, fills in missing values in the data and then produces computations similar to those in the "What is mean total number of steps taken per day?" section to compare means and medians. The strategy for filling in missing values is to use the means for each interval calculated above rounded to an integer.
+The code below computes the number of NAs, fills in missing values in the data and then produces computations similar to those in the "What is mean total number of steps taken per day?" section to compare means and medians. The strategy for filling in missing values is to use the mean for a respective 5-min interval (as calculated above). Those means are rounded as integers.
 
 ``` {r calculating_NAs}
 NAs <- sum(is.na(data$steps))
@@ -77,7 +77,7 @@ fillNAs <- function(data, steps) {
 data_noNAs <- fillNAs(data, mean_steps_per_interval)
 ```
 
-Now that the NAs are filled the comparissons can be made.
+Now that the NAs are filled in, the comparissons can be made.
 
 ``` {r comparing_with_unfilled_NAs}
 steps_per_day_noNAs <- split(data_noNAs$steps, data_noNAs$date)
@@ -91,11 +91,11 @@ median_change <- daily_median_noNAs - daily_median
 
 The new mean is **`r daily_mean_noNAs`**. The mean has faced a change of **`r mean_change`**.
 
-The new mean is **`r daily_median_noNAs`**. The mean has faced a change of **`r median_change`**.
+The new median is **`r daily_median_noNAs`**. The median has faced a change of **`r median_change`**.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-The code below plots the patterns of activity on weekdays and weekends separately so a reader can compare them. For that it splits the dataset with filled NAs by a new factor variable levels of which correspond to weekends and weekdays respectively.
+The code below plots the patterns of activity on weekdays and weekends separately so a reader can compare them. For that the dataset is split by a new factor variable. The levels of this variable represent the types of a day: either a weekday or a weekend.
 
 ```{r weekday_weekend_split}
 week_day <- wday(data_noNAs$date)
